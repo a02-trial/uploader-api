@@ -1,21 +1,24 @@
-name: Upload File Artifact
+name: Check
 
-on: [push] # Trigger the workflow on every push to the repository
+on: 
+  workflow_dispatch:
+    inputs:
+      DEVICE_NAME:
+        description: 'Ready'
+        required: true
+        default: 'Ok'
+
+permissions:
+  contents: write
 
 jobs:
   build-and-upload:
-    runs-on: ubuntu-latest # Specify the operating system for the job
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4 # Action to check out your repository code
 
-    - name: Create a dummy file
-      run: echo "This is a test file content." > my_test_file.txt # Create a file to upload
-
-    - name: Upload artifact
-      uses: actions/upload-artifact@v4 # Use the upload-artifact action
-      with:
-        name: my-artifact # Name of the artifact
-        path: ./temp # Path to the file or directory to upload
-        retention-days: 7 # Optional: Set the retention period for the artifact (e.g., 7 days)
+    - name: Prepare the environment
+      run: |
+        sudo mkdir tempo
