@@ -21,4 +21,5 @@ jobs:
 
     - name: Prepare the environment
       run: |
+        cd ./
         sudo mkdir tempo
